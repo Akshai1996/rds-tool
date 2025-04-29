@@ -1,0 +1,7 @@
+# custom-values.yaml
+region: us-east-1
+image:
+  repository: apptest
+  tag: v1.0.2
+  pullPolicy: Always
+
