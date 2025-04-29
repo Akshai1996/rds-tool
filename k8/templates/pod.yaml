@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: rds-app
+  namespace: rdstool
+  app.kubernetes.io/name: rds-app
+  app.kubernetes.io/managed-by: Helm
+annotations:
+    meta.helm.sh/release-name: "{{ .Release.Name }}"
+    meta.helm.sh/release-namespace: "{{ .Release.Namespace }}"
+spec:
+  containers:
+  - name: rds-tool
+    image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+    imagePullPolicy: {{ .Values.image.pullPolicy }}
+    command: ["bash", "input.sh", "{{ .Values.region }}"]
+    envFrom:
+    - secretRef:
+        name: my-app-secret
+    env:
+    - name: REGION
+      value: "{{ .Values.region }}"
